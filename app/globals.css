@@ -1,13 +1,15 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: red;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -16,6 +18,7 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --primary: green;
   }
 }
 
@@ -23,4 +26,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+* {
+  margin: 0;
+  box-sizing: content-box;
+  padding: 0;
 }
