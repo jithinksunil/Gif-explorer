@@ -35,14 +35,21 @@ export const View = () => {
       </div>
       <div className='max-w-[1440px] mx-auto'>
         <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 py-4 space-y-4'>
-          {data?.map(({ originalUrl, previewUrl }, index) => (
-            <img
-              key={index}
-              src={originalUrl}
-              alt={`img-${index}`}
-              className='w-full h-auto rounded-lg object-cover break-inside-avoid'
-            />
-          ))}
+          {isLoading
+            ? [...Array(12)].map((_, index) => (
+                <div
+                  key={index}
+                  className='w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
+                />
+              ))
+            : data?.map(({ originalUrl, previewUrl }, index) => (
+                <img
+                  key={index}
+                  src={originalUrl}
+                  alt={`img-${index}`}
+                  className='w-full h-auto rounded-lg object-cover break-inside-avoid'
+                />
+              ))}
         </div>
       </div>
     </>
