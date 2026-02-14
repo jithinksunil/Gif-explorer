@@ -1,5 +1,6 @@
 'use client';
 
+import { Modal } from '@/components/common';
 import { useSearch } from '@/hooks';
 import { Search } from '@/interfaces';
 import { useEffect, useRef, useState } from 'react';
@@ -43,12 +44,13 @@ export const View = () => {
                 />
               ))
             : data?.map(({ originalUrl, previewUrl }, index) => (
-                <img
-                  key={index}
-                  src={originalUrl}
-                  alt={`img-${index}`}
-                  className='w-full h-auto rounded-lg object-cover break-inside-avoid'
-                />
+                <Modal key={index} imageUrl={originalUrl}>
+                  <img
+                    src={originalUrl}
+                    alt={`img-${index}`}
+                    className='w-full h-auto rounded-lg object-cover break-inside-avoid hover:cursor-pointer hover:scale-102 duration-100'
+                  />
+                </Modal>
               ))}
         </div>
       </div>

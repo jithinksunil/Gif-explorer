@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@giphy/js-fetch-api": "^5.7.0",
+    "@radix-ui/react-dialog": "^1.1.15",
     "@tanstack/react-query": "^5.90.21",
     "next": "16.1.6",
     "react": "19.2.3",
