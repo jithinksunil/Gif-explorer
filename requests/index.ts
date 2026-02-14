@@ -1,1 +1,1 @@
-export * from './search.requests'
+export * from './fetchGifs.requests'

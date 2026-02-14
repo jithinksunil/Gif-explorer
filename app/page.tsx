@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
-import { SearchBar } from './SearchBar';
+import { View } from './View';
 
 export default function Home() {
   return (
-    <div className='h-screen flex items-center justify-center'>
+    <div >
       <Suspense fallback={<div>Loading...</div>}>
-        <SearchBar />
+        <View />
       </Suspense>
     </div>
   );
