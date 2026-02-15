@@ -57,7 +57,7 @@ export const View = () => {
           />
         </div>
       </div>
-      <div className='max-w-[1440px] mx-auto py-8'>
+      <div className='max-w-[1440px] mx-auto'>
         <InfiniteScroll
           loader={<div />}
           dataLength={paginatedGifs.gifs.length}
@@ -76,7 +76,7 @@ export const View = () => {
               <Modal key={index} gif={gif}>
                 <div
                   key={gif.id}
-                  className='mb-4 hover:cursor-pointer hover:scale-102 duration-100'
+                  className='mb-4 hover:cursor-pointer hover:scale-102 duration-100 bg-muted-foreground rounded-lg'
                 >
                   <img
                     src={gif.previewUrl}
