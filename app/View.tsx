@@ -53,7 +53,7 @@ export const View = () => {
 
   return (
     <>
-      <div className='border-b border-muted-foreground sticky top-0'>
+      <div className='border-b border-muted-foreground sticky top-0 z-50'>
         <div className='max-w-[1440px] mx-auto flex justify-center py-4 bg-background'>
           <input
             type='text'
