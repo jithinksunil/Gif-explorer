@@ -19,7 +19,7 @@ export const View = () => {
 
   useEffect(() => {
     deBouncerRef.current = setTimeout(() => {
-      setSearch((prev) => ({ ...prev, query }));
+      setSearch((prev) => ({  query, page: 1 }));
     }, 1000);
     return () => {
       if (deBouncerRef.current) {
