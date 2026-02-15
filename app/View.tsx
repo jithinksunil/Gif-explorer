@@ -1,25 +1,45 @@
 'use client';
 
 import { Modal } from '@/components/common';
+import MasonryGrid from '@/components/common/MasonryGrid';
 import { useSearch } from '@/hooks';
 import { Search } from '@/interfaces';
 import { useEffect, useRef, useState } from 'react';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Masonry from 'react-masonry-css';
+const breakpointColumnsObj = {
+  default: 4,
+  1280: 4,
+  1024: 3,
+  768: 2,
+  640: 1,
+};
 export const View = () => {
   const [search, setSearch] = useState<Search>({ query: '', page: 1 });
   const { data, isLoading } = useSearch(search);
+  const [paginatedGifs,setPaginatedGifs]=useState<string[]>([])
   const [query, setQuery] = useState('');
   const deBouncerRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
     deBouncerRef.current = setTimeout(() => {
       setSearch((prev) => ({ ...prev, query }));
-    }, 500);
+    }, 1000);
     return () => {
       if (deBouncerRef.current) {
         clearTimeout(deBouncerRef.current);
       }
     };
   }, [query]);
+
+  useEffect(()=>{
+    if(data){
+      if(search.page==1){
+        setPaginatedGifs(data.map((gif)=>gif.originalUrl))
+      }else{
+        setPaginatedGifs((pre)=>[...pre,...data.map((gif)=>gif.originalUrl)])
+      }
+    }
+  },[data])
 
   return (
     <>
@@ -35,7 +55,32 @@ export const View = () => {
         </div>
       </div>
       <div className='max-w-[1440px] mx-auto'>
-        <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 py-4 space-y-4'>
+        <InfiniteScroll
+          loader={<div>Loading...</div>}
+          dataLength={paginatedGifs.length}
+          hasMore={true}
+          next={() => {setSearch((pre)=>({...pre,page:pre.page+1}))}}
+          endMessage={<p>Reached dead end</p>}
+        >
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className='flex gap-4'
+            columnClassName='bg-clip-padding'
+          >
+            {paginatedGifs.map((img, index) => (
+              <div key={index} className='mb-4'>
+                <img src={img} alt='' className='w-full h-auto' />
+              </div>
+            ))}
+            {isLoading?[...Array(4)].map((_, index) => (
+            <div
+              key={`loader-${index}`}
+              className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
+            />
+          )):null}
+          </Masonry>
+        </InfiniteScroll>
+        {/* <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 py-4 space-y-4'>
           {isLoading
             ? [...Array(12)].map((_, index) => (
                 <div
@@ -52,7 +97,7 @@ export const View = () => {
                   />
                 </Modal>
               ))}
-        </div>
+        </div> */}
       </div>
     </>
   );
