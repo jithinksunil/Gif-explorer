@@ -44,7 +44,7 @@ export const View = () => {
         });
       } else {
         setPaginatedGifs((pre) => ({
-          gifs: [...pre.gifs],
+          gifs: [...pre.gifs, ...data.map((gif) => gif.originalUrl)],
           hasNext: data.length == pageLimit,
         }));
       }
