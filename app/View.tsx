@@ -2,7 +2,7 @@
 
 import { MasonryGrid, Modal } from '@/components/common';
 import { useSearch } from '@/hooks';
-import { Search } from '@/interfaces';
+import { GifObject, Search } from '@/interfaces';
 import { pageLimit } from '@/lib';
 import { useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -11,7 +11,7 @@ export const View = () => {
   const [query, setQuery] = useState('');
   const [search, setSearch] = useState<Search>({ query: '', page: 1 });
   const [paginatedGifs, setPaginatedGifs] = useState<{
-    gifs: string[];
+    gifs: GifObject[];
     hasNext: boolean;
   }>({ gifs: [], hasNext: false });
   const deBouncerRef = useRef<NodeJS.Timeout | null>(null);
@@ -32,12 +32,12 @@ export const View = () => {
     if (data) {
       if (search.page == 1) {
         setPaginatedGifs({
-          gifs: data.map((gif) => gif.originalUrl),
+          gifs: data,
           hasNext: data.length == pageLimit,
         });
       } else {
         setPaginatedGifs((pre) => ({
-          gifs: [...pre.gifs, ...data.map((gif) => gif.originalUrl)],
+          gifs: [...pre.gifs, ...data],
           hasNext: data.length == pageLimit,
         }));
       }
@@ -73,12 +73,18 @@ export const View = () => {
         >
           <MasonryGrid>
             {paginatedGifs.gifs.map((gif, index) => (
-              <Modal key={index} imageUrl={gif}>
+              <Modal key={index} imageUrl={gif.originalUrl}>
                 <div
-                  key={`git-${index}`}
+                  key={gif.id}
                   className='mb-4 hover:cursor-pointer hover:scale-102 duration-100'
                 >
-                  <img src={gif} alt='' className='w-full h-auto rounded-lg' />
+                  <img
+                    src={gif.previewUrl}
+                    alt={gif.title}
+                    className='w-full rounded-lg'
+                    style={{aspectRatio:gif.originalWidth/gif.originalHeight}}
+                  />
+                  <p className='text-center'>{gif.title}</p>
                 </div>
               </Modal>
             ))}
