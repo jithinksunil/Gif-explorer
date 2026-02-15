@@ -28,8 +28,8 @@ export function Modal({ gif, children }: PropsType) {
             loop
             muted
             playsInline
-            className={`h-full min-w-[320px] max-h-[80vh] rounded-[16px] bg-muted-foreground ${isLoading?'animate-pulse':''}`}
-            style={{ aspectRatio: gif.originalWidth / gif.originalHeight }}
+            className={`min-w-[320px] rounded-[16px] bg-muted-foreground ${isLoading?'animate-pulse':''}`}
+            style={{ aspectRatio: gif.originalWidth / gif.originalHeight,width:gif.originalWidth }}
           >
             <source src={gif.mp4Url} type='video/mp4' />
           </video>
