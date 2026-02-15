@@ -54,7 +54,7 @@ export const View = () => {
   return (
     <>
       <div className='border-b border-muted-foreground sticky top-0 z-50'>
-        <div className='max-w-[1440px] mx-auto flex justify-center py-4 bg-background'>
+        <div className='max-w-[1440px] mx-auto flex justify-center py-4 bg-background px-4 '>
           <input
             type='text'
             className='bg-muted-foreground rounded-md w-[600px] py-2 px-4 focus:outline-none'
@@ -64,7 +64,7 @@ export const View = () => {
           />
         </div>
       </div>
-      <div className='max-w-[1440px] mx-auto py-8'>
+      <div className='max-w-[1440px] mx-auto py-8 px-4 '>
         <InfiniteScroll
           loader={<div />}
           dataLength={paginatedGifs.gifs.length}
@@ -74,9 +74,9 @@ export const View = () => {
           }}
           endMessage={
             !isLoading &&
-            paginatedGifs.gifs.length && (
+            paginatedGifs.gifs.length ? (
               <p className='text-center'>Reached dead end</p>
-            )
+            ):null
           }
         >
           <Masonry
