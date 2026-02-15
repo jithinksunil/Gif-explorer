@@ -64,15 +64,15 @@ export const View = () => {
           />
         </div>
       </div>
-      <div className='max-w-[1440px] mx-auto'>
+      <div className='max-w-[1440px] mx-auto py-8'>
         <InfiniteScroll
-          loader={<div>Loading...</div>}
+          loader={<div/>}
           dataLength={paginatedGifs.gifs.length}
           hasMore={paginatedGifs.hasNext}
           next={() => {
             setSearch((pre) => ({ ...pre, page: pre.page + 1 }));
           }}
-          endMessage={!isLoading && <p>Reached dead end</p>}
+          endMessage={!isLoading && <p className='text-center'>Reached dead end</p>}
         >
           <Masonry
             breakpointCols={breakpointColumnsObj}
@@ -81,7 +81,7 @@ export const View = () => {
           >
             {paginatedGifs.gifs.map((img, index) => (
               <div key={index} className='mb-4'>
-                <img src={img} alt='' className='w-full h-auto' />
+                <img src={img} alt='' className='w-full h-auto rounded-lg' />
               </div>
             ))}
             {isLoading
