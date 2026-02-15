@@ -16,7 +16,7 @@ export const MasonryGrid = ({children}:PropsType) => {
   return (
     <Masonry
       breakpointCols={breakpointColumnsObj}
-      className='flex gap-4'
+      className='flex gap-4 px-4'
       columnClassName='bg-clip-padding'
     >{children}</Masonry>
   );

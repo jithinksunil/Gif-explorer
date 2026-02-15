@@ -57,7 +57,7 @@ export const View = () => {
           />
         </div>
       </div>
-      <div className='max-w-[1440px] mx-auto py-8 px-4 '>
+      <div className='max-w-[1440px] mx-auto py-8'>
         <InfiniteScroll
           loader={<div />}
           dataLength={paginatedGifs.gifs.length}
