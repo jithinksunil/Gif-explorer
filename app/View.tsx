@@ -73,7 +73,10 @@ export const View = () => {
             setSearch((pre) => ({ ...pre, page: pre.page + 1 }));
           }}
           endMessage={
-            !isLoading && <p className='text-center'>Reached dead end</p>
+            !isLoading &&
+            paginatedGifs.gifs.length && (
+              <p className='text-center'>Reached dead end</p>
+            )
           }
         >
           <Masonry
@@ -83,22 +86,26 @@ export const View = () => {
           >
             {paginatedGifs.gifs.map((gif, index) => (
               <Modal key={index} imageUrl={gif}>
-                <div key={index} className='mb-4 hover:cursor-pointer hover:scale-102 duration-100'>
+                <div
+                  key={index}
+                  className='mb-4 hover:cursor-pointer hover:scale-102 duration-100'
+                >
                   <img src={gif} alt='' className='w-full h-auto rounded-lg' />
                 </div>
               </Modal>
             ))}
-            {isLoading ? (
-              [...Array(4)].map((_, index) => (
-                <div
-                  key={`loader-${index}`}
-                  className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
-                />
-              ))
-            ) : !paginatedGifs.gifs.length ? (
-              <p className='text-center'>No Gifs found</p>
-            ) : null}
+            {isLoading
+              ? [...Array(4)].map((_, index) => (
+                  <div
+                    key={`loader-${index}`}
+                    className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
+                  />
+                ))
+              : null}
           </Masonry>
+          {!isLoading && !paginatedGifs.gifs.length ? (
+            <p className='text-center w-full'>No Gifs found</p>
+          ) : null}
         </InfiniteScroll>
         {/* <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 py-4 space-y-4'>
           {isLoading
