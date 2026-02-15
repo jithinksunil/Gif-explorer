@@ -73,7 +73,7 @@ export const View = () => {
         >
           <MasonryGrid>
             {paginatedGifs.gifs.map((gif, index) => (
-              <Modal key={index} imageUrl={gif.originalUrl}>
+              <Modal key={index} gif={gif}>
                 <div
                   key={gif.id}
                   className='mb-4 hover:cursor-pointer hover:scale-102 duration-100'
