@@ -3,7 +3,7 @@
 import { GifObject } from '@/interfaces';
 import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 interface PropsType {
   gif: GifObject;
@@ -11,6 +11,9 @@ interface PropsType {
 }
 
 export function Modal({ gif, children }: PropsType) {
+    const [isLoading, setIsLoading] = useState(true);
+
+  
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
@@ -20,11 +23,12 @@ export function Modal({ gif, children }: PropsType) {
         <Dialog.Content className='fixed left-1/2 top-1/2 z-50  -translate-x-1/2 -translate-y-1/2 bg-background p-6 rounded-3xl overflow-hidden outline-none focus:outline-none '>
          
           <video
+           onCanPlayThrough={() => setIsLoading(false)}
             autoPlay
             loop
             muted
             playsInline
-            className='h-full min-w-[320px] max-h-[80vh] rounded-[16px] bg-muted-foreground'
+            className={`h-full min-w-[320px] max-h-[80vh] rounded-[16px] bg-muted-foreground ${isLoading?'animate-pulse':''}`}
             style={{ aspectRatio: gif.originalWidth / gif.originalHeight }}
           >
             <source src={gif.mp4Url} type='video/mp4' />
