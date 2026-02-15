@@ -1,9 +1,7 @@
-"use client";
+'use client';
 
-import Masonry from "react-masonry-css";
-import Image from "next/image";
-
-
+import React, { ReactNode } from 'react';
+import Masonry from 'react-masonry-css';
 const breakpointColumnsObj = {
   default: 4,
   1280: 4,
@@ -11,23 +9,15 @@ const breakpointColumnsObj = {
   768: 2,
   640: 1,
 };
-
-export default function MasonryGrid({ images }: { images?: string[] }) {
+interface PropsType{
+  children:ReactNode
+}
+export const MasonryGrid = ({children}:PropsType) => {
   return (
     <Masonry
       breakpointCols={breakpointColumnsObj}
-      className="flex gap-4"
-      columnClassName="bg-clip-padding"
-    >
-      {images?.map((img,index) => (
-        <div key={index} className="mb-4">
-          <img
-            src={img}
-            alt=""
-            className='w-full h-auto'
-          />
-        </div>
-      ))}
-    </Masonry>
+      className='flex gap-4'
+      columnClassName='bg-clip-padding'
+    >{children}</Masonry>
   );
-}
+};

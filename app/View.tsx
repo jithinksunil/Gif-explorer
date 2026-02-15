@@ -1,29 +1,22 @@
 'use client';
 
-import { Modal } from '@/components/common';
-import MasonryGrid from '@/components/common/MasonryGrid';
+import { MasonryGrid, Modal } from '@/components/common';
 import { useSearch } from '@/hooks';
 import { Search } from '@/interfaces';
 import { pageLimit } from '@/lib';
 import { useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Masonry from 'react-masonry-css';
-const breakpointColumnsObj = {
-  default: 4,
-  1280: 4,
-  1024: 3,
-  768: 2,
-  640: 1,
-};
+
 export const View = () => {
+  const [query, setQuery] = useState('');
   const [search, setSearch] = useState<Search>({ query: '', page: 1 });
-  const { data, isLoading } = useSearch(search);
   const [paginatedGifs, setPaginatedGifs] = useState<{
     gifs: string[];
     hasNext: boolean;
   }>({ gifs: [], hasNext: false });
-  const [query, setQuery] = useState('');
   const deBouncerRef = useRef<NodeJS.Timeout | null>(null);
+  const { data, isLoading } = useSearch(search);
+
   useEffect(() => {
     deBouncerRef.current = setTimeout(() => {
       setSearch((prev) => ({ ...prev, query }));
@@ -73,17 +66,12 @@ export const View = () => {
             setSearch((pre) => ({ ...pre, page: pre.page + 1 }));
           }}
           endMessage={
-            !isLoading &&
-            paginatedGifs.gifs.length ? (
+            !isLoading && paginatedGifs.gifs.length ? (
               <p className='text-center'>Reached dead end</p>
-            ):null
+            ) : null
           }
         >
-          <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className='flex gap-4'
-            columnClassName='bg-clip-padding'
-          >
+          <MasonryGrid>
             {paginatedGifs.gifs.map((gif, index) => (
               <Modal key={index} imageUrl={gif}>
                 <div
@@ -102,29 +90,12 @@ export const View = () => {
                   />
                 ))
               : null}
-          </Masonry>
+          </MasonryGrid>
+
           {!isLoading && !paginatedGifs.gifs.length ? (
             <p className='text-center w-full'>No Gifs found</p>
           ) : null}
         </InfiniteScroll>
-        {/* <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 py-4 space-y-4'>
-          {isLoading
-            ? [...Array(12)].map((_, index) => (
-                <div
-                  key={index}
-                  className='w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
-                />
-              ))
-            : data?.map(({ originalUrl, previewUrl }, index) => (
-                <Modal key={index} imageUrl={originalUrl}>
-                  <img
-                    src={originalUrl}
-                    alt={`img-${index}`}
-                    className='w-full h-auto rounded-lg object-cover break-inside-avoid hover:cursor-pointer hover:scale-102 duration-100'
-                  />
-                </Modal>
-              ))}
-        </div> */}
       </div>
     </>
   );
