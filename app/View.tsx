@@ -79,16 +79,19 @@ export const View = () => {
             className='flex gap-4'
             columnClassName='bg-clip-padding'
           >
-            {paginatedGifs.gifs.map((img, index) => (
+            {paginatedGifs.gifs.map((gif, index) => (
+              <Modal key={index} imageUrl={gif}>
+
               <div key={index} className='mb-4'>
-                <img src={img} alt='' className='w-full h-auto rounded-lg' />
+                <img src={gif} alt='' className='w-full h-auto rounded-lg' />
               </div>
+              </Modal>
             ))}
             {isLoading
               ? [...Array(4)].map((_, index) => (
                   <div
                     key={`loader-${index}`}
-                    className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
+                    className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg hover:cursor-pointer hover:scale-102 duration-100'
                   />
                 ))
               : null}
