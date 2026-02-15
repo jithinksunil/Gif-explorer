@@ -10,4 +10,5 @@ export interface GifObject {
   title: string;
   originalHeight:number
   originalWidth:number
+  mp4Url:string
 }

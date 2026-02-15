@@ -76,15 +76,19 @@ export const View = () => {
               <Modal key={index} gif={gif}>
                 <div
                   key={gif.id}
-                  className='mb-4 hover:cursor-pointer hover:scale-102 duration-100 bg-muted-foreground rounded-lg'
+                  className='mb-4 hover:cursor-pointer hover:scale-102 duration-100 border border-muted-foreground overflow-hidden rounded-lg'
                 >
-                  <img
-                    src={gif.previewUrl}
-                    alt={gif.title}
-                    className='w-full rounded-lg'
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className='w-full'
                     style={{aspectRatio:gif.originalWidth/gif.originalHeight}}
-                  />
-                  <p className='text-center'>{gif.title}</p>
+                  >
+                    <source src={gif.mp4Url} type='video/mp4' />
+                  </video>
+                  <p className='text-center py-1'>{gif.title}</p>
                 </div>
               </Modal>
             ))}

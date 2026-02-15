@@ -12,7 +12,8 @@ export const useSearch = (search: Search) =>
         id: gif.id as unknown as string,
         title: gif.title,
         originalHeight:gif.images.original.height,
-        originalWidth:gif.images.original.width
+        originalWidth:gif.images.original.width,
+        mp4Url:gif.images.downsized_small.mp4
       }));
     },
     queryKey: ['search', search.query, search.page],
