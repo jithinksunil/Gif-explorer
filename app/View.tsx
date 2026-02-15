@@ -1,6 +1,7 @@
 'use client';
 
-import { MasonryGrid, Modal } from '@/components/common';
+import { Modal } from '@/components/common';
+import { GifPlayer, MasonryGrid } from '@/components/view';
 import { useSearch } from '@/hooks';
 import { GifObject, Search } from '@/interfaces';
 import { pageLimit } from '@/lib';
@@ -19,7 +20,7 @@ export const View = () => {
 
   useEffect(() => {
     deBouncerRef.current = setTimeout(() => {
-      setSearch((prev) => ({  query, page: 1 }));
+      setSearch((prev) => ({ query, page: 1 }));
     }, 1000);
     return () => {
       if (deBouncerRef.current) {
@@ -78,16 +79,8 @@ export const View = () => {
                   key={gif.id}
                   className='mb-4 hover:cursor-pointer hover:scale-102 duration-100 border border-muted-foreground overflow-hidden rounded-lg'
                 >
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className='w-full'
-                    style={{aspectRatio:gif.originalWidth/gif.originalHeight}}
-                  >
-                    <source src={gif.mp4Url} type='video/mp4' />
-                  </video>
+                  <GifPlayer gif={gif} className='w-full' />
+                  
                   <p className='text-center py-1'>{gif.title}</p>
                 </div>
               </Modal>
