@@ -4,6 +4,7 @@ import { Modal } from '@/components/common';
 import MasonryGrid from '@/components/common/MasonryGrid';
 import { useSearch } from '@/hooks';
 import { Search } from '@/interfaces';
+import { pageLimit } from '@/lib';
 import { useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Masonry from 'react-masonry-css';
@@ -17,7 +18,10 @@ const breakpointColumnsObj = {
 export const View = () => {
   const [search, setSearch] = useState<Search>({ query: '', page: 1 });
   const { data, isLoading } = useSearch(search);
-  const [paginatedGifs,setPaginatedGifs]=useState<string[]>([])
+  const [paginatedGifs, setPaginatedGifs] = useState<{
+    gifs: string[];
+    hasNext: boolean;
+  }>({ gifs: [], hasNext: false });
   const [query, setQuery] = useState('');
   const deBouncerRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
@@ -31,15 +35,21 @@ export const View = () => {
     };
   }, [query]);
 
-  useEffect(()=>{
-    if(data){
-      if(search.page==1){
-        setPaginatedGifs(data.map((gif)=>gif.originalUrl))
-      }else{
-        setPaginatedGifs((pre)=>[...pre,...data.map((gif)=>gif.originalUrl)])
+  useEffect(() => {
+    if (data) {
+      if (search.page == 1) {
+        setPaginatedGifs({
+          gifs: data.map((gif) => gif.originalUrl),
+          hasNext: data.length == pageLimit,
+        });
+      } else {
+        setPaginatedGifs((pre) => ({
+          gifs: [...pre.gifs],
+          hasNext: data.length == pageLimit,
+        }));
       }
     }
-  },[data])
+  }, [data]);
 
   return (
     <>
@@ -57,27 +67,31 @@ export const View = () => {
       <div className='max-w-[1440px] mx-auto'>
         <InfiniteScroll
           loader={<div>Loading...</div>}
-          dataLength={paginatedGifs.length}
-          hasMore={true}
-          next={() => {setSearch((pre)=>({...pre,page:pre.page+1}))}}
-          endMessage={<p>Reached dead end</p>}
+          dataLength={paginatedGifs.gifs.length}
+          hasMore={paginatedGifs.hasNext}
+          next={() => {
+            setSearch((pre) => ({ ...pre, page: pre.page + 1 }));
+          }}
+          endMessage={!isLoading && <p>Reached dead end</p>}
         >
           <Masonry
             breakpointCols={breakpointColumnsObj}
             className='flex gap-4'
             columnClassName='bg-clip-padding'
           >
-            {paginatedGifs.map((img, index) => (
+            {paginatedGifs.gifs.map((img, index) => (
               <div key={index} className='mb-4'>
                 <img src={img} alt='' className='w-full h-auto' />
               </div>
             ))}
-            {isLoading?[...Array(4)].map((_, index) => (
-            <div
-              key={`loader-${index}`}
-              className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
-            />
-          )):null}
+            {isLoading
+              ? [...Array(4)].map((_, index) => (
+                  <div
+                    key={`loader-${index}`}
+                    className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
+                  />
+                ))
+              : null}
           </Masonry>
         </InfiniteScroll>
         {/* <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 py-4 space-y-4'>
