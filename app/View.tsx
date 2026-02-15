@@ -83,7 +83,7 @@ export const View = () => {
           >
             {paginatedGifs.gifs.map((gif, index) => (
               <Modal key={index} imageUrl={gif}>
-                <div key={index} className='mb-4'>
+                <div key={index} className='mb-4 hover:cursor-pointer hover:scale-102 duration-100'>
                   <img src={gif} alt='' className='w-full h-auto rounded-lg' />
                 </div>
               </Modal>
@@ -92,7 +92,7 @@ export const View = () => {
               [...Array(4)].map((_, index) => (
                 <div
                   key={`loader-${index}`}
-                  className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg hover:cursor-pointer hover:scale-102 duration-100'
+                  className='mb-4 w-full h-[300px] bg-muted-foreground animate-pulse rounded-lg'
                 />
               ))
             ) : !paginatedGifs.gifs.length ? (
